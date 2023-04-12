@@ -1,8 +1,5 @@
 // =============================================================================================================
-// --- Bibliotecas Auxiliares ---
-#include <LiquidCrystal.h>                                  //inclui LCD  
-#include <max6675.h>                                        //inclui max6675  
-#include <Wire.h>                                           //inclui wire 
+// --- Bibliotecas Auxiliares ---  
 #include <TimerOne.h>
 
 // =============================================================================================================
