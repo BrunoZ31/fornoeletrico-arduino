@@ -18,7 +18,6 @@ float D = 0;    //Ação Integral
 float acao;     //Ação na variável manipulada
 
 int spValue = 0, pvValue = 0;
-int sensorValue = 0;
 const int pin_mv = 9; // PWM
 const int pin_pv = A4; //Pino de entrada para o variável medida
 const int pin_sp = A0; //Pino de entrada para o setpoint POTENCIOMETRO
@@ -26,15 +25,9 @@ const int lim_int_sup = 29000;
 const int lim_int_inf = -29000;
 const int lim_pwm_sup = 254;// adotou-se 254 porque a saída do pwm em 255 é muito diferente do valor em 254, podendo gerar instabilidade na malha fechada
 
-bool state = 1;
-
 void amostragem()
 {
 teste++;
-
-state = !state;
-digitalWrite(alert,state);
-// Serial.println(state);
 
 teste2++;
 if (teste > 2)
@@ -42,26 +35,21 @@ if (teste > 2)
       teste = 0;
       spValue = analogRead(pin_sp); //leitura do valor de potenciometro
       pvValue = analogRead(pin_pv); //leitura do valor de setpoint (Sensor temp)
-      // Serial.print("spValue: ");
-      // Serial.println(spValue);
-      // Serial.print("pvValue: ");
-      // Serial.println(pvValue);
+
       erro = pvValue - spValue;
-      // Serial.print("erro: ");
-      // Serial.println(erro);
+        
       P = erro * kp;
+      
       S += erro;    //fórmula do integrador
-      if (S > lim_int_sup) //limitador Integral superior
-      {
-             S = lim_int_sup;
-      }
-      if (S < lim_int_inf) //limitador Integral inferior
-      {
-             S = lim_int_inf;
-      }
-      I = kp * S / Ti; //fórmula da ação integral
+      if (S > lim_int_sup){S = lim_int_sup;}//limitador Integral superior
+      if (S < lim_int_inf) {S = lim_int_inf;}//limitador Integral inferior
+      
+      I = S / Ti; //fórmula da ação integral
+      
       D = (erro_ant - erro) * Td;
+      
       erro_ant = erro;
+      
       acao = P + I + D;   //cálculo da ação final do controlador PI
       if (acao > lim_pwm_sup) //limitador saída superior pwm
       {
@@ -101,11 +89,8 @@ if (teste2 > 1000) //atualiza o gráfico do plotter serial a cada 1 segundo
 // =============================================================================================================
 // --- Configurações Iniciais ---
 void setup() 
-{
-  pinMode(alert, OUTPUT);                                   //saída para sistema de alerta
-  digitalWrite(alert, LOW);                                 //saída alert inicia em LOW
-   
-  //     // MELHOR FORMA DE IMPLEMENTAR INTERRUPT
+{  
+  //MELHOR FORMA DE IMPLEMENTAR INTERRUPT
   Timer1.initialize(interrupt_s*1000*1000);      // Inicializa o Timer1 e configura para um período de 1 s
   Timer1.attachInterrupt(amostragem); //define a rotina de amostragem da interrupção do PID digital
   
@@ -116,22 +101,4 @@ void setup()
 // =============================================================================================================
 // --- Loop Infinito ---
 void loop() 
-{
-  
-} //end loop
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+{} 
