@@ -3,29 +3,6 @@
 #include <TimerOne.h>
 
 // =============================================================================================================
-// --- Mapeamento de Hardware ---
-#define     alert     13                                    //saída para acionamento do alarme
-#define     butt       9                                    //entrada para botão de ajuste de offset
-
-
-// =============================================================================================================
-// --- Hardware do MAX6675 ---
-const int   thermoDO  = 11;                                 //Pino DO (ou SO)
-const int   thermoCS  = 12;                                 //CS
-const int   thermoCLK =  6;                                 //Pino CLK (ou SCK)
-
-
-// MAX6675 thermocouple(thermoCLK, thermoCS, thermoDO);        //Cria objeto para termopar e MAX6675
-
-
-// =============================================================================================================
-
-
-// =============================================================================================================
-
-
-
-// =============================================================================================================
 // --- PID VAR---
 int teste = 0, teste2 = 0;
 float interrupt_s = 1/1000; // tempo do interrupt em s
